@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+let name = ["aaa","bbb","ccc","ddd","eee"]
 class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
 
     
@@ -23,10 +23,15 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! myTableViewCell
+        cell.movieName.text = name[indexPath.row]
+        return cell
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.description)
     }
 
 }
