@@ -12,11 +12,16 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     
 
     @IBOutlet weak var table: UITableView!
+    let movieURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=c71db7da6c938d7e472cfb4fbca2f9b8&targetDt=20221115"
     override func viewDidLoad() {
         super.viewDidLoad()
         table.delegate = self
         table.dataSource = self
+        getData()
         // Do any additional setup after loading the view.
+    }
+    func getData(){
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
