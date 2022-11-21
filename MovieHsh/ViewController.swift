@@ -22,14 +22,26 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     var movieData : MovieData?
     
     @IBOutlet weak var table: UITableView!
-    let movieURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=c71db7da6c938d7e472cfb4fbca2f9b8&targetDt=20221115"
+    var movieURL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=c71db7da6c938d7e472cfb4fbca2f9b8&targetDt="
     override func viewDidLoad() {
         super.viewDidLoad()
         table.delegate = self
         table.dataSource = self
+        movieURL += yesterdayStr()
         getData()
         // Do any additional setup after loading the view.
     }
+    func yesterdayStr() -> String {
+        let yDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let str = dateFormatter.string(from: yDate)
+        print(str)
+        return str
+        
+        
+    }
+    
     func getData(){
         if let url = URL(string: movieURL) {
             let session = URLSession(configuration: .default)
@@ -46,7 +58,10 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
                         //print(decodedData.boxOfficeResult.dailyBoxOfficeList[0].movieNm)
                         //print(decodedData.boxOfficeResult.dailyBoxOfficeList[0].audiCnt)
                         self.movieData = decodedData
-                        self.table.reloadData()
+                        DispatchQueue.main.async {
+                            self.table.reloadData()
+                        }
+                        
                     } catch {
                         print(error)
                     }
@@ -66,7 +81,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
         return cell
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 1
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.description)
